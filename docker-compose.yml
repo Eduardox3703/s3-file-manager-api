@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  s3-api:
+    build: .
+    container_name: s3-file-manager
+    ports:
+      - "8000:8000"
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - AWS_REGION=${AWS_REGION}
+      - KMS_KEY_ID=${KMS_KEY_ID}
+      - ENCRYPTION_PASSWORD=${ENCRYPTION_PASSWORD}
+    volumes:
+      - ./:/app
+    restart: unless-stopped
