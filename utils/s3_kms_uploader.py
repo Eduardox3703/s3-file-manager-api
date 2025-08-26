@@ -13,7 +13,7 @@ class S3KMSUploader:
                  kms_key_id: str,
                  aws_access_key_id: Optional[str] = None,
                  aws_secret_access_key: Optional[str] = None,
-                 region_name: str = 'us-east-1'):
+                 region_name: str = 'us-east-2'):
         self.bucket_name = bucket_name
         self.kms_key_id = kms_key_id
         self.region_name = region_name

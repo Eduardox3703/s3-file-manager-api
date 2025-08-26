@@ -11,7 +11,7 @@ from utils.aes_encryptor import AES256FileEncryptor
 from pydantic import BaseModel
 from typing import Dict, Any, List
 
-router = APIRouter(tags=["AES-256 Encryption"])
+aes_router = APIRouter(tags=["AES-256 Encryption"])
 logger = logging.getLogger(__name__)
 
 s3_client = None
@@ -57,7 +57,7 @@ def secure_filename(filename):
     filename = re.sub(r'[^\w\s\.-]', '', filename).strip()
     return re.sub(r'[-\s]+', '-', filename)
 
-@router.post("/upload-encrypted", response_model=APIResponse)
+@aes_router.post("/upload-encrypted", response_model=APIResponse)
 async def upload_encrypted(file: UploadFile = File(...)):
     s3_client = get_s3_client()
     filename = secure_filename(file.filename)
@@ -117,7 +117,7 @@ async def upload_encrypted(file: UploadFile = File(...)):
             except:
                 pass
 
-@router.get("/download-decrypted/{filename}")
+@aes_router.get("/download-decrypted/{filename}")
 async def download_decrypted(filename: str):
     s3_client = get_s3_client()
     encrypted_filename = f"{filename}.encrypted"

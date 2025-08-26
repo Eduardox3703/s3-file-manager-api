@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import aes_router, kms_router
+from routers.kms_router import kms_router
+from routers.aes_router import aes_router
+
 import logging
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = FastAPI(
     title="S3 File Manager API",
@@ -21,8 +27,8 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(aes_router.router, prefix="/aes")
-app.include_router(kms_router.router, prefix="/kms")
+app.include_router(aes_router, prefix="/aes")
+app.include_router(kms_router, prefix="/kms")
 
 @app.on_event("startup")
 async def startup_event():
@@ -40,4 +46,4 @@ async def startup_event():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000)
